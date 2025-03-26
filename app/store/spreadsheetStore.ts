@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { evaluate } from 'mathjs';
 
 // Simple cell data structure (no formula)
 interface CellData {
@@ -101,7 +102,7 @@ const useSpreadsheetStore = create<SpreadsheetState>((set, get) => ({
       })
       .join("");
 
-    return eval(formulaValueString);
+    return evaluate(formulaValueString);
   },
 
   // Update cell value - no formula processing
