@@ -49,7 +49,7 @@ const useSpreadsheetStore = create<SpreadsheetState>((set, get) => ({
   },
 
   getDependenciesFromFormula: (formula: string) => {
-    let dependencies: string[] = [];
+    const dependencies: string[] = [];
 
     // split the formula by + - * ( and ) /
     formula.split(/([+\-*()/])/).map((part) => {
