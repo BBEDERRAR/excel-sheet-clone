@@ -1,13 +1,11 @@
 import { create } from "zustand";
 import { evaluate } from 'mathjs';
 
-// Simple cell data structure (no formula)
 interface CellData {
   value: string;
   formula?: string;
 }
 
-// Simplified state interface
 interface SpreadsheetState {
   cells: Record<string, CellData>;
   dependents: Record<string, string[]>;
@@ -21,17 +19,14 @@ interface SpreadsheetState {
   calculateFormulaValue: (formula: string) => number;
 }
 
-// Helper to create cell key
 const getCellKey = (row: number, col: number) => `${row}:${col}`;
 
-// Create Zustand store with simplified logic
 const useSpreadsheetStore = create<SpreadsheetState>((set, get) => ({
   // State
   cells: {},
   dependents: {},
   selectedCell: null,
 
-  // Get cell value
   getCellValue: (row, col) => {
     const key = getCellKey(row, col);
     return get().cells[key]?.value || "";
@@ -43,7 +38,6 @@ const useSpreadsheetStore = create<SpreadsheetState>((set, get) => ({
     return cell?.formula || cell?.value || "";
   },
 
-  // Select a cell
   selectCell: (row, col) => {
     set({ selectedCell: { row, col } });
   },
@@ -105,7 +99,6 @@ const useSpreadsheetStore = create<SpreadsheetState>((set, get) => ({
     return evaluate(formulaValueString);
   },
 
-  // Update cell value - no formula processing
   updateCell: (row, col, newValue) => {
     const key = getCellKey(row, col);
     if (newValue?.startsWith("=")) {

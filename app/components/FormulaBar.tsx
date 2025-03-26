@@ -1,18 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import useSpreadsheetStore from "../store/spreadsheetStore";
+import useSpreadsheetStore from "@store/spreadsheetStore";
 
 export default function FormulaBar() {
-  // Get selected cell and its value from the store
   const selectedCell = useSpreadsheetStore((state) => state.selectedCell);
   const getCellValue = useSpreadsheetStore((state) => state.getCellValue);
   const updateCell = useSpreadsheetStore((state) => state.updateCell);
 
-  // Local state for the input value
   const [inputValue, setInputValue] = useState<string>("");
 
-  // Update input value when selected cell changes
   useEffect(() => {
     if (selectedCell) {
       const value = getCellValue(selectedCell.row, selectedCell.col);
@@ -22,20 +19,17 @@ export default function FormulaBar() {
     }
   }, [selectedCell, getCellValue]);
 
-  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
   };
 
-  // Handle input blur
   const handleBlur = () => {
     if (selectedCell) {
       updateCell(selectedCell.row, selectedCell.col, inputValue);
     }
   };
 
-  // Handle Enter key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && selectedCell) {
       updateCell(selectedCell.row, selectedCell.col, inputValue);
