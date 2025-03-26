@@ -1,46 +1,55 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import useSpreadsheetStore from "../store/spreadsheetStore";
 
 // Define the Cell interface for the component props
 export interface CellProps {
-  value: string;
   row: number;
   col: number;
-  isSelected: boolean;
   bgColor?: string;
-  onSelect: (row: number, col: number) => void;
-  onChange: (value: string) => void;
 }
 
 // Define the Cell component
-export default function Cell({
-  value,
-  row,
-  col,
-  isSelected,
-  bgColor,
-  onSelect,
-  onChange,
-}: CellProps) {
-  // State for editing the cell value
+export default function Cell({ row, col, bgColor }: CellProps) {
+  // Each cell subscribes only to its own data
+  const value = useSpreadsheetStore((state) => state.getCellValue(row, col));
+  const isSelected = useSpreadsheetStore(
+    (state) =>
+      state.selectedCell?.row === row && state.selectedCell?.col === col
+  );
+  const updateCell = useSpreadsheetStore((state) => state.updateCell);
+  const selectCell = useSpreadsheetStore((state) => state.selectCell);
+
+  // Local state for editing
   const [editValue, setEditValue] = useState<string>(value);
 
-  // Update editValue when value prop changes
+  // Update editValue when value changes
   useEffect(() => {
     setEditValue(value);
   }, [value]);
 
   // Handle cell click
   const handleClick = () => {
-    onSelect(row, col);
+    selectCell(row, col);
   };
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setEditValue(newValue);
-    onChange(newValue);
+  };
+
+  // Submit changes on blur or Enter key
+  const handleBlur = () => {
+    updateCell(row, col, editValue);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      updateCell(row, col, editValue);
+      // Move focus to next cell or do something else
+    }
   };
 
   return (
@@ -57,6 +66,8 @@ export default function Cell({
           className="w-full h-full px-1 outline-none bg-transparent"
           value={editValue}
           onChange={handleChange}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
           autoFocus
         />
       ) : (
