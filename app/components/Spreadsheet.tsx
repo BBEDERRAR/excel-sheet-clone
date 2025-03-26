@@ -125,7 +125,10 @@ export default function Spreadsheet() {
                     transform: `translateX(${virtualColumn.start}px) translateY(${virtualRow.start}px)`,
                   }}
                 >
-                  <Cell row={virtualRow.index} col={virtualColumn.index} />
+                  <Cell
+                    row={virtualRow.index + 1}
+                    col={virtualColumn.index + 1}
+                  />
                 </div>
               ))}
             </React.Fragment>
