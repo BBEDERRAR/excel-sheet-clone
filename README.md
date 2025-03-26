@@ -61,7 +61,7 @@ To ensure fast recalculation when cells change:
 
 ### 5. Security risks: using eval can lead to Cross-Site Scripting (XSS)
 
-- Moved from eval to math.js Library to calculate math operations
+- Moved from eval to `math.js` Library to calculate math operations
 
 ## Formula Syntax Guide
 
@@ -84,4 +84,4 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) or [https://excel-sheet-clone-j3po3oqzb-bbederrars-projects.vercel.app/](https://excel-sheet-clone-j3po3oqzb-bbederrars-projects.vercel.app/) with your browser to see the result.
