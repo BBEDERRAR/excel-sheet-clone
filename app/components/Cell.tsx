@@ -14,6 +14,10 @@ export interface CellProps {
 export default function Cell({ row, col, bgColor }: CellProps) {
   // Each cell subscribes only to its own data
   const value = useSpreadsheetStore((state) => state.getCellValue(row, col));
+  const formula = useSpreadsheetStore((state) =>
+    state.getCellRawValue(row, col)
+  );
+
   const isSelected = useSpreadsheetStore(
     (state) =>
       state.selectedCell?.row === row && state.selectedCell?.col === col
@@ -26,8 +30,16 @@ export default function Cell({ row, col, bgColor }: CellProps) {
 
   // Update editValue when value changes
   useEffect(() => {
-    setEditValue(value);
-  }, [value]);
+    if (isSelected) {
+      if (formula) {
+        setEditValue(formula);
+      } else {
+        setEditValue(value);
+      }
+    } else {
+      setEditValue(value);
+    }
+  }, [value, isSelected]);
 
   // Handle cell click
   const handleClick = () => {
