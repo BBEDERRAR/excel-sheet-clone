@@ -63,6 +63,15 @@ To ensure fast recalculation when cells change:
 
 - Moved from eval to math.js Library to calculate math operations
 
+## Formula Syntax Guide
+
+The spreadsheet supports basic mathematical operations:
+
+- Formulas begin with `=` (e.g., `=1+2`)
+- Cell references use `row:column` format (e.g., `=0:0+1:0`)
+- Supported operators: `+`, `-`, `*`, `/`
+- Example: `=0:0*2+5:3` multiplies cell (0,0) by 2, then adds the value from cell (5,3)
+
 ## Getting Started
 
 ```bash
@@ -76,27 +85,3 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Formula Syntax Guide
-
-The spreadsheet supports basic mathematical operations:
-
-- Formulas begin with `=` (e.g., `=1+2`)
-- Cell references use `row:column` format (e.g., `=0:0+1:0`)
-- Supported operators: `+`, `-`, `*`, `/`
-- Example: `=0:0*2+5:3` multiplies cell (0,0) by 2, then adds the value from cell (5,3)
-
-## Technical Highlights
-
-- **React/Next.js**: Modern frontend framework for performance and developer experience
-- **Virtualization**: Only renders visible cells, enabling the 10,000×10,000 grid
-- **State Management**: Zustand for efficient global state handling
-- **Formula Engine**: Custom parser and evaluator for spreadsheet calculations
-- **Dependency Tracking**: Smart recalculation of only affected cells
-
-## Future Enhancements
-
-- Support for more complex formulas and functions
-- Collaborative editing capabilities
-- Import/export compatibility with Excel/CSV formats
-- Cell styling and formatting options
